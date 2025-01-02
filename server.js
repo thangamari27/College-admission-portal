@@ -1,6 +1,7 @@
+// Required modules
 const express = require('express');
 const bodyParser = require('body-parser');
-const { Pool } = require('pg');
+const mysql = require('mysql2');
 const bcrypt = require('bcrypt');
 const multer = require('multer');
 
@@ -12,11 +13,23 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Database connection
-const pool = new Pool({
-    user: 'root',
+const pool = mysql.createPool({
     host: 'localhost',
-    database: 'admission_DB',
+    user: 'root',
     password: '',
+    database: 'admission_DB',
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0,
+});
+
+pool.getConnection((err, connection) => {
+    if (err) {
+        console.error('Error connecting to MySQL database:', err);
+    } else {
+        console.log('Connected to MySQL database.');
+        connection.release();
+    }
 });
 
 // File upload setup
@@ -26,31 +39,32 @@ const upload = multer({ dest: 'uploads/' });
 async function generateApplicationId(courseType) {
     const year = new Date().getFullYear().toString().slice(2); // Last two digits of year
     const collegeId = '107'; // Static college ID
-    const result = await pool.query(
+
+    const [rows] = await pool.promise().query(
         `SELECT serial_count FROM application_id_tracker 
-         WHERE year = $1 AND college_id = $2 AND course_type = $3`,
+         WHERE year = ? AND college_id = ? AND course_type = ?`,
         [year, collegeId, courseType]
     );
 
     let serialCount = 1;
-    if (result.rows.length > 0) {
-        serialCount = result.rows[0].serial_count + 1;
+    if (rows.length > 0) {
+        serialCount = rows[0].serial_count + 1;
     }
 
     const applicationId = `${courseType}${year}${collegeId}${serialCount.toString().padStart(4, '0')}`;
 
     // Update tracker
-    if (result.rows.length > 0) {
-        await pool.query(
+    if (rows.length > 0) {
+        await pool.promise().query(
             `UPDATE application_id_tracker 
-             SET serial_count = $1 
-             WHERE year = $2 AND college_id = $3 AND course_type = $4`,
+             SET serial_count = ? 
+             WHERE year = ? AND college_id = ? AND course_type = ?`,
             [serialCount, year, collegeId, courseType]
         );
     } else {
-        await pool.query(
+        await pool.promise().query(
             `INSERT INTO application_id_tracker (year, college_id, course_type, serial_count) 
-             VALUES ($1, $2, $3, $4)`,
+             VALUES (?, ?, ?, ?)`,
             [year, collegeId, courseType, serialCount]
         );
     }
@@ -79,28 +93,28 @@ app.post('/submit-admission', upload.fields([
     try {
         const applicationId = await generateApplicationId(course_type.toUpperCase());
 
-        await pool.query(
+        await pool.promise().query(
             `INSERT INTO personal_info (
                 application_id, first_name, last_name, email, phone, aadhaar_number, blood_group, dob, gender, address,
                 father_name, father_occupation, mother_name, mother_occupation, annual_income, community, caste, religion, nationality
-            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)`,
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [applicationId, first_name, last_name, email, phone, aadhaar_number, blood_group, dob, gender, address,
                 father_name, father_occupation, mother_name, mother_occupation, annual_income, community, caste, religion, nationality]
         );
 
-        await pool.query(
+        await pool.promise().query(
             `INSERT INTO academic_info (
                 application_id, school_name, exam_register_number, subjects, total_marks, percentage, cutoff_marks,
                 passing_month_year, course_type, course_mode, photo_path, aadhaar_card_path, transfer_certificate_path
-            ) VALUES ($1, $2, $3, $4::jsonb, $5, $6, $7, $8, $9, $10, $11, $12, $13)`,
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [applicationId, school_name, exam_register_number, subjects, total_marks, percentage, cutoff_marks,
                 passing_month_year, course_type, course_mode, photo, aadhaarCard, transferCertificate]
         );
 
-        await pool.query(
+        await pool.promise().query(
             `INSERT INTO extra_info (
                 application_id, physical_disability, ex_service_man, nss_ncc_sports
-            ) VALUES ($1, $2, $3, $4)`,
+            ) VALUES (?, ?, ?, ?)`,
             [applicationId, physical_disability === 'true', ex_service_man === 'true', nss_ncc_sports]
         );
 
