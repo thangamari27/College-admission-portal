@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Admission Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+      :root{
+        --primary-color: #F8F7FF;
+        --secondary-color: #131112;
+        --accend-color: #3777FF;
+        --text-light: #f1f1f1;
+        --text-dark: #1E1E1E;
+        --text-hover: #1E1E1E;
+        --label-info-alert:lightgreen;
+      }
+      body {
+            background-color: var(--primary-color);
+      }
+      .completed {
+          background-color: var(--label-info-alert) !important;
+          color: var(--text-light) !important;
+      }
+      .failled{
+        background-color: red;
+        color: var(--text-light) !important;
+      }
+      .info-label-icon{
+        margin: 5px;
+        padding: 13px 16px;
+        background-color: var(--primary-color);
+        color: var(--text-dark);
+        border-radius: 5px;
+      }
+      #personal-info-label,
+      #academic-info-label,
+      #extra-info-label{
+        border-top-right-radius: 80px;
+      }
+      
+      .form-section {
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+      .form-title {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+      }
+      .form-label {
+            font-weight: 600;
+            color: #555;
+      }
+      
+      .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+      }
+      .table input {
+            width: 100%;
+            border: none;
+            background: #f9f9f9;
+            text-align: center;
+            font-size: 1rem;
+            padding: 0.5rem;
+            border-radius: 5px;
+      }
+        .table input:focus {
+            border: 1px solid #007bff;
+            box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
+            background: #ffffff;
+      }
+      .result-box {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+            background: #f9f9f9;
+            border-radius: 5px;
+            padding: 10px;
+      }
+      .file-input {
+            position: relative;
+            overflow: hidden;
+        }
+        .file-input input[type="file"] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .modal-body {
+            text-align: center;
+        }
+
+        .modal-body .icon {
+            font-size: 3rem;
+            color: lightgreen;
+            margin-bottom: 1rem;
+        }
+
+        .modal-body h5 {
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .modal-body p {
+            color: var(--text-dark);
+        }
+
+      @media(max-width:767px){
+        .info-label-icon{
+          margin: 0px;
+          
+        }
+        .info-label-name{
+          display: none;
+        }
+        #personal-info-label,
+        #academic-info-label,
+        #extra-info-label{
+          border-radius: 4px;
+        }
+      }
+
+       
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <!-- Header Section -->
+        <div class="d-flex justify-content-between mb-4 gap-3 ">
+            <button id="personal-info-label" class="btn btn-danger border-0 p-3 w-75 w-50 text-md-start text-sm-center"><span class="info-label-icon"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16">
+              <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0m-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+              <path d="M2 13c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/>
+            </svg></span><span class="info-label-name">Personal Info</span></button>
+            <button id="academic-info-label" class="btn btn-danger border-0 p-3 w-75 w-50 text-md-start text-sm-center"><span class="info-label-icon"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-bank" viewBox="0 0 16 16">
+              <path d="m8 0 6.61 3h.89a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H15v7a.5.5 0 0 1 .485.38l.5 2a.498.498 0 0 1-.485.62H.5a.498.498 0 0 1-.485-.62l.5-2A.5.5 0 0 1 1 13V6H.5a.5.5 0 0 1-.5-.5v-2A.5.5 0 0 1 .5 3h.89zM3.777 3h8.447L8 1zM2 6v7h1V6zm2 0v7h2.5V6zm3.5 0v7h1V6zm2 0v7H12V6zM13 6v7h1V6zm2-1V4H1v1zm-.39 9H1.39l-.25 1h13.72z"/>
+            </svg></span><span class="info-label-name">Academic Info</span></button>
+            <button id="extra-info-label" class="btn btn-danger border-0 p-3 w-75 w-50 text-md-start text-sm-center"><span class="info-label-icon"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-bookmark-plus" viewBox="0 0 16 16">
+              <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/>
+              <path d="M8 4a.5.5 0 0 1 .5.5V6H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V7H6a.5.5 0 0 1 0-1h1.5V4.5A.5.5 0 0 1 8 4"/>
+            </svg></span><span class="info-label-name">Extra Info</span></button>
+        </div>
+
+        <!-- Form Section -->
+        <div class="cotnainer">
+          <form id="admission-form" action="" method="post">
+            <div id="personal-info" class="form-section">
+                
+                <h3>Personal Information</h3>
+                <div class="row">
+                  <!-- First Name -->
+                  <div class="col-md-6 mb-3">
+                      <label for="first-name" class="form-label">First Name</label>
+                      <input type="text" id="first-name" class="form-control" placeholder="Enter your first name" required>
+                      <span class="text-danger d-none" id="first-name-error">First name is required.</span>
+                  </div>
+                  <!-- Last Name -->
+                  <div class="col-md-6 mb-3">
+                      <label for="last-name" class="form-label">Last Name</label>
+                      <input type="text" id="last-name" class="form-control" placeholder="Enter your last name" required>
+                  </div>
+              </div>
+
+              <div class="row">
+                  <!-- Email -->
+                  <div class="col-md-6 mb-3">
+                      <label for="email" class="form-label">Email Address</label>
+                      <input type="email" id="email" class="form-control" placeholder="example@domain.com" required>
+                  </div>
+                  <!-- Phone Number -->
+                  <div class="col-md-6 mb-3">
+                      <label for="phone" class="form-label">Phone Number</label>
+                      <input type="tel" id="phone" class="form-control" placeholder="Enter your phone number" required>
+                  </div>
+              </div>
+
+              <div class="row">
+                  <!-- Aadhaar -->
+                  <div class="col-md-6 mb-3">
+                      <label for="aadhaar" class="form-label">Aadhaar Number</label>
+                      <input type="text" id="aadhaar" class="form-control" placeholder="Enter your Aadhaar number" required>
+                  </div>
+                  <!-- Blood Group -->
+                  <div class="col-md-6 mb-3">
+                      <label for="blood-group" class="form-label">Blood Group</label>
+                      <select id="blood-group" class="form-select" required>
+                          <option value="" disabled selected>Select your blood group</option>
+                          <option value="A+">A+</option>
+                          <option value="A-">A-</option>
+                          <option value="B+">B+</option>
+                          <option value="B-">B-</option>
+                          <option value="O+">O+</option>
+                          <option value="O-">O-</option>
+                          <option value="AB+">AB+</option>
+                          <option value="AB-">AB-</option>
+                      </select>
+                  </div>
+              </div>
+
+              <div class="row">
+                  <!-- DOB -->
+                  <div class="col-md-6 mb-3">
+                      <label for="dob" class="form-label" >Date of Birth</label>
+                      <input type="date" id="dob" class="form-control" placeholder="dd-mm-yyyy" required >
+                  </div>
+                  <!-- Gender -->
+                  <div class="col-md-6 mb-3">
+                      <label for="gender" class="form-label">Gender</label>
+                      <select id="gender" class="form-select" required>
+                          <option value="" disabled selected>Select your gender</option>
+                          <option value="Male">Male</option>
+                          <option value="Female">Female</option>
+                          <option value="Other">Other</option>
+                      </select>
+                  </div>
+              </div>
+
+              <div class="mb-3">
+                  <!-- Address -->
+                  <label for="address" class="form-label">Address</label>
+                  <textarea id="address" class="form-control" rows="3" placeholder="Enter your full address" required></textarea>
+              </div>
+
+              <div class="row">
+                  <!-- Father Name -->
+                  <div class="col-md-6 mb-3">
+                      <label for="father-name" class="form-label">Father's Name</label>
+                      <input type="text" id="father-name" class="form-control" placeholder="Enter your father's name" required>
+                  </div>
+                  <!-- Father Occupation -->
+                  <div class="col-md-6 mb-3">
+                      <label for="father-occupation" class="form-label">Father's Occupation</label>
+                      <input type="text" id="father-occupation" class="form-control" placeholder="Enter your father's occupation" required>
+                  </div>
+              </div>
+
+              <div class="row">
+                  <!-- Mother Name -->
+                  <div class="col-md-6 mb-3">
+                      <label for="mother-name" class="form-label">Mother's Name</label>
+                      <input type="text" id="mother-name" class="form-control" placeholder="Enter your mother's name" required>
+                  </div>
+                  <!-- Mother Occupation -->
+                  <div class="col-md-6 mb-3">
+                      <label for="mother-occupation" class="form-label">Mother's Occupation</label>
+                      <input type="text" id="mother-occupation" class="form-control" placeholder="Enter your mother's occupation" required>
+                  </div>
+              </div>
+
+              <div class="row">
+                  <!-- Annual Income -->
+                  <div class="col-md-6 mb-3">
+                      <label for="annual-income" class="form-label">Annual Income</label>
+                      <input type="number" id="annual-income" class="form-control" placeholder="Enter annual family income" required>
+                  </div>
+                  <!-- Community -->
+                  <div class="col-md-6 mb-3">
+                    <label for="community" class="form-label">Community</label>
+                    <select id="community" class="form-select" required>
+                        <option value="" disabled selected>Select your community</option>
+                        <option value="Community1">Community 1</option>
+                        <option value="Community2">Community 2</option>
+                        <option value="Community3">Community 3</option>
+                    </select>
+                  </div>
+              </div>
+
+              <div class="row">
+                  <!-- Caste -->
+                  <div class="col-md-6 mb-3">
+                    <label for="caste" class="form-label">Caste</label>
+                    <select id="caste" class="form-select" required>
+                        <option value="" disabled selected>Select your caste</option>
+                        <option value="Caste1">Caste 1</option>
+                        <option value="Caste2">Caste 2</option>
+                        <option value="Caste3">Caste 3</option>
+                    </select>
+                  </div>
+                  <!-- Religion -->
+                  <div class="col-md-6 mb-3">
+                    <label for="religion" class="form-label">Religion</label>
+                    <select id="religion" class="form-select" required>
+                        <option value="" disabled selected>Select your religion</option>
+                        <option value="Religion1">Religion 1</option>
+                        <option value="Religion2">Religion 2</option>
+                        <option value="Religion3">Religion 3</option>
+                    </select>
+                  </div>
+              </div>
+
+              <!-- Nationality -->
+              <div class="mb-3">
+                  <label for="nationality" class="form-label">Nationality</label>
+                  <input type="text" id="nationality" class="form-control" placeholder="Enter your nationality" required>
+              </div>                
+              <div class="mb-3 text-end">
+                <button type="reset" class="btn btn-secondary px-5  btn-sm btn-md btn-lg ">Clear</button>
+                <button type="button" class="btn btn-primary px-5  btn-sm btn-md btn-lg " onclick="nextPage('personal-info', 'academic-info', 'personal-info-label')">Next</button>
+              </div>
+            </div>
+
+            <!-- Academic layout -->
+            <div id="academic-info" class="form-section d-none">
+                <div class="mb-3 text-start">
+                    <div class="mb-3 text-start">
+                        <button type="button" class="btn btn-secondary" onclick="navigateBack( 'personal-info','academic-info','personal-info-label')">Back</button>
+                    </div>
+                </div>
+                <h3>Academic Information</h3>
+                      <!-- School Name -->
+                      <div class="mb-3">
+                        <label for="school-name" class="form-label">School Name</label>
+                        <input type="text" id="school-name" class="form-control" placeholder="Enter your school name" required>
+                    </div>
+
+                    <div class="row">
+                        <!-- Exam Register Number -->
+                        <div class="col-md-6 mb-3">
+                            <label for="exam-reg-no" class="form-label">12th Exam Register Number</label>
+                            <input type="text" id="exam-reg-no" class="form-control" placeholder="Enter your exam register number" required>
+                        </div>
+
+                        <!-- School Emis Number -->
+                        <div class="col-md-6 mb-3">
+                            <label for="school-emi-no" class="form-label">EMI Number</label>
+                            <input type="text" id="school-emi-no" class="form-control" placeholder="Enter your EMI number" required>
+                        </div>
+                    </div>
+
+                    <!-- Subjects and Marks Table -->
+                    <label class="form-label">Subjects and Marks</label>
+                    <div class="table-responsive mb-3">
+                        <table class="table table-bordered text-center">
+                          <thead>
+                              <tr>
+                                  <th>Subject</th>
+                                  <th>Marks Scored</th>
+                              </tr>
+                          </thead>
+                          <tbody id="subject-table">
+                              
+                          </tbody>
+                      </table>
+                        <button type="button" class="btn btn-secondary" onclick="addSubject()">Add Another Subject</button>
+                    </div>
+                    <!-- Results -->
+                    <div class="row">
+                      <div class="col-md-6 mb-3">
+                          <label class="form-label">Total Marks</label>
+                          <div class="result-box" id="total-marks">0</div>
+                      </div>
+                      <div class="col-md-6 mb-3">
+                          <label class="form-label">Percentage</label>
+                          <div class="result-box" id="percentage">0%</div>
+                      </div>
+                  </div>
+                  <!-- Cut-off Marks -->
+                  <div class="mb-4">
+                      <label class="form-label">Cut-Off Marks (Major Subjects Only)</label>
+                      <div class="result-box" id="cut-off">0</div>
+                  </div>
+                    
+                    <!-- Month & Year Passing -->
+                    <div class="mb-3">
+                        <label for="passing-year" class="form-label">Month & Year of Passing</label>
+                        <input type="month" id="passing-year" class="form-control" required>
+                    </div>
+
+                    <!-- Course Type -->
+                    <div class="mb-3">
+                        <label class="form-label">Course Type</label>
+                        <select id="course-type" class="form-select" onchange="showCourseOptions()" required>
+                            <option value="" disabled selected>Select course type</option>
+                            <option value="UG">Undergraduate (UG)</option>
+                            <option value="PG">Postgraduate (PG)</option>
+                        </select>
+                    </div>
+
+                    <!-- Course List -->
+                    <div id="course-options" class="mb-3 d-none">
+                        <label class="form-label">Preferred Course</label>
+                        <select id="course-list" class="form-select" required>
+                            <!-- Dynamic Options based on Course Type -->
+                        </select>
+                    </div>
+
+                    <!-- Course Mode -->
+                    <div class="mb-3">
+                        <label class="form-label">Course Mode</label>
+                        <select id="course-mode" class="form-select" required>
+                            <option value="" disabled selected>Select course mode</option>
+                            <option value="Regular">Regular</option>
+                            <option value="Self Finance">Self Finance</option>
+                        </select>
+                    </div>
+
+                    <!-- Document Upload -->
+                    <label class="form-label">Upload Documents</label>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Passport Size Photo</label>
+                            <div class="file-input btn btn-outline-secondary w-100">
+                                <span>Upload Photo</span>
+                                <input type="file" accept="image/*" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Aadhaar Card</label>
+                            <div class="file-input btn btn-outline-secondary w-100">
+                                <span>Upload Aadhaar</span>
+                                <input type="file" accept="image/*" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Transfer Certificate</label>
+                            <div class="file-input btn btn-outline-secondary w-100">
+                                <span>Upload TC</span>
+                                <input type="file" accept="image/*" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3 text-end">
+                        <button type="reset" class="btn btn-secondary px-5 btn-sm btn-md btn-lg">Clear</button>
+                        <button type="button" class="btn btn-primary px-5 btn-sm btn-md btn-lg " onclick="nextPage('academic-info','extra-info', 'academic-info-label')">Next</button>
+                      </div>
+            </div>
+
+            <div id="extra-info" class="form-section d-none">
+                <div class="mb-3 text-start">
+                    <div class="mb-3 text-start">
+                        <button type="button" class="btn btn-secondary" onclick="navigateBack('academic-info', 'extra-info','academic-info-label')">Back</button>
+                    </div>
+                </div>
+                <h3>Extra Information</h3>
+                <div class="mb-3">
+                    <label for="physically-challenged" class="form-label">Physically Challenged?</label>
+                    <select class="form-select" id="physically-challenged" required>
+                        <option value="" disabled selected>Choose an option</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="ex-serviceman" class="form-label">Ex-Serviceman</label>
+                    <select class="form-select" id="ex-serviceman" required>
+                        <option value="" disabled selected>Choose an option</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="activities" class="form-label">Sports, NSS, NCC Details</label>
+                    <select class="form-select" id="activities" required>
+                        <option value="" disabled selected>Select activities</option>
+                        <option value="Sports">Sports</option>
+                        <option value="NSS">NSS</option>
+                        <option value="NCC">NCC</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#successModal" onclick="nextPage('extra-info','successModal','extra-info-label')">Submit</button>
+            </div>
+            <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="icon">&#10004;</div>
+                            <h5>Application Submitted Successfully</h5>
+                            <p>Your application has been received successfully. We will review your details and get back to you soon.<br>Thank you for applying!</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="button1Redirect" class=" btn btn-primary">Explore More Courses</button>
+                            <button type="button" id="button2Redirect" class=" btn btn-danger" >Go to Student Dashboard</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+
+     <script defer>
+           
+        function showCourseOptions() {
+            const courseType = document.getElementById('course-type').value;
+            const courseList = document.getElementById('course-list');
+            const optionsUG = ['B.Sc Computer Science', 'B.Com', 'B.A English'];
+            const optionsPG = ['M.Sc Computer Science', 'MBA', 'M.A English'];
+
+            courseList.innerHTML = `<option value="" disabled selected>Select your Course</option>`;
+            (courseType === 'UG' ? optionsUG : optionsPG).forEach(course => {
+                const option = document.createElement('option');
+                option.value = course;
+                option.textContent = course;
+                courseList.appendChild(option);
+            });
+
+            document.getElementById('course-options').classList.remove('d-none');
+        }
+  </script>
+  <!-- <script src="./applicationForm.js"></script> -->
+    <script>
+        function nextPage(currentSectionId, targetSectionId,labelId) {
+    if (validateForm(currentSectionId)) {
+        document.getElementById(currentSectionId).classList.add("d-none");
+        document.getElementById(targetSectionId).classList.remove("d-none");
+        document.getElementById(labelId).classList.add('completed');
+        if(labelId === 'extra-info-label'){
+            handleSubmit()
+        }
+    }
+}
+function navigateBack(targetSectionId, currentSectionId,labelId) {
+    document.getElementById(currentSectionId).classList.add("d-none");
+    document.getElementById(targetSectionId).classList.remove("d-none");
+    document.getElementById(labelId).classList.remove('completed');
+    
+}
+
+// validate input
+function validateForm(sectionId) {
+    const section = document.getElementById(sectionId);
+    let valid = true;
+
+    const validationRules = {
+        "first-name": { regex: /^[a-zA-Z\s]+$/, error: "Only letters are allowed." },
+        "last-name": { regex: /^[a-zA-Z\s]+$/, error: "Only letters are allowed." },
+        "email": { regex: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, error: "Please enter a valid email address." },
+        "phone": { regex: /^\d{10}$/, error: "Phone number must be 10 digits." },
+        "aadhaar": { regex: /^\d{12}$/, error: "Aadhaar number must be 12 digits." },
+        "dob": {
+            custom: (value) => {
+                const currentYear = new Date().getFullYear();
+                const birthYear = new Date(value.value).getFullYear();
+                return currentYear - birthYear >= 17 && currentYear - birthYear <= 25;
+            },
+            error: "Date of birth indicates ineligibility. Must be between 17 to 25 years.",
+        },
+        "father-name": { regex: /^[a-zA-Z\s]+$/, error: "Only letters are allowed." },
+        "father-occupation": { regex: /^[a-zA-Z\s]+$/, error: "Only letters are allowed." },
+        "mother-name": { regex: /^[a-zA-Z\s]+$/, error: "Only letters are allowed." },
+        "mother-occupation": { regex: /^[a-zA-Z\s]+$/, error: "Only letters are allowed." },
+        "annual-income": { regex: /^\d+$/, error: "Only numeric values are allowed." },
+        "school-name": { regex: /^[a-zA-Z\s]+$/, error: "Only letters are allowed." },
+        "exam-reg-no": { regex: /^\d+$/, error: "Only numeric values are allowed." },
+        "school-emi-no": { regex: /^\d+$/, error: "Only numeric values are allowed." },
+        "marks-scored": {
+            custom: (value) => /^\d+$/.test(value) && value > 0 && value <= 100,
+            error: "Marks scored must be a number between 1 and 100.",
+        },
+        "documents": {
+            custom: (field) => field.files[0]?.size <= 100 * 1024, // 100KB
+            error: "File size must not exceed 100KB.",
+        },
+    };
+
+    Array.from(section.querySelectorAll("input, select, textarea")).forEach((field) => {
+        const value = field.value.trim();
+        const rule = validationRules[field.id];
+        let errorMessage = "";
+
+        if (rule) {
+            if (rule.regex && !rule.regex.test(value)) {
+                errorMessage = rule.error;
+            
+            } else if (rule.custom && !rule.custom(field)) {
+                errorMessage = rule.error;
+            }
+        } else if (field.required && !value) {
+            errorMessage = `Please fill out the ${field.placeholder || field.id} field.`;
+        }
+
+        if (errorMessage) {
+            field.classList.add("is-invalid");
+            let errorDiv = field.nextElementSibling;
+            if (!errorDiv || !errorDiv.classList.contains("error-message")) {
+                errorDiv = document.createElement("div");
+                errorDiv.className = "error-message text-danger";
+                field.after(errorDiv);
+            }
+            errorDiv.innerText = errorMessage;
+            valid = false;
+        } else {
+            field.classList.remove("is-invalid");
+            const errorDiv = field.nextElementSibling;
+            if (errorDiv && errorDiv.classList.contains("error-message")) {
+                errorDiv.remove();
+            }
+        }
+    });
+
+    return valid;
+}
+
+// Constants for Auto-Save
+const storageKey = "formAutoSave";
+const encryptionKey = "secureEncryptionKey123"; // Secure key
+const ttl = 3600000; // 1 hour (time-to-live)
+
+// Encrypt data using AES
+function encryptData(data) {
+    return CryptoJS.AES.encrypt(JSON.stringify(data), encryptionKey).toString();
+}
+
+// Decrypt data using AES
+function decryptData(encryptedData) {
+    try {
+        const bytes = CryptoJS.AES.decrypt(encryptedData, encryptionKey);
+        return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+    } catch (error) {
+        console.error("Decryption error:", error);
+        return null;
+    }
+}
+
+// Save data to localStorage with expiration
+function saveWithExpiration(key, data) {
+    const timestamp = Date.now();
+    const payload = {
+        data: encryptData(data),
+        timestamp,
+    };
+    localStorage.setItem(key, JSON.stringify(payload));
+}
+
+// Load data from localStorage, checking for expiration
+function loadWithExpiration(key) {
+    const item = localStorage.getItem(key);
+    if (!item) return null;
+
+    const payload = JSON.parse(item);
+    const now = Date.now();
+
+    if (now - payload.timestamp > ttl) {
+        localStorage.removeItem(key);
+        console.warn("Saved data has expired.");
+        return null;
+    }
+
+    return decryptData(payload.data);
+}
+
+// Auto-save function for individual fields
+function autoSave(event) {
+    const field = event.target;
+    const savedData = loadWithExpiration(storageKey) || {};
+
+    if (field.id) {
+        savedData[field.id] = field.value.trim();
+    } else if (field.closest("#subject-table")) {
+        const rows = Array.from(document.querySelectorAll("#subject-table tr"));
+        const tableData = rows.map((row) => {
+            const subject = row.querySelector("input[type='text']").value.trim();
+            const marks = row.querySelector(".marks-input").value.trim();
+            return { subject, marks };
+        });
+        savedData["subject-table"] = tableData;
+    }
+
+    saveWithExpiration(storageKey, savedData);
+}
+
+// Load and populate saved data
+function loadSavedData() {
+    const savedData = loadWithExpiration(storageKey);
+
+    if (savedData) {
+        Object.keys(savedData).forEach((key) => {
+            if (key === "subject-table") {
+                const tableBody = document.getElementById("subject-table");
+                savedData[key].forEach((rowData) => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td><input type="text" class="form-control" value="${rowData.subject}" required></td>
+                        <td><input type="number" class="marks-input" value="${rowData.marks}" oninput="calculateMarks()" required></td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            } else {
+                const field = document.getElementById(key);
+                if (field) {
+                    field.value = savedData[key];
+                }
+            }
+        });
+        calculateMarks(); // Update calculated values on load
+    }
+}
+
+// Add a new subject row
+function addSubject() {
+    const table = document.getElementById("subject-table");
+    const row = document.createElement("tr");
+    row.innerHTML = `
+        <td><input type="text" class="form-control" placeholder="Enter subject" required></td>
+        <td><input type="number" class="marks-input" placeholder="Enter marks" oninput="calculateMarks()" required></td>
+    `;
+    table.appendChild(row);
+}
+
+// Calculate total marks, percentage, and cut-off
+function calculateMarks() {
+    const marksInputs = document.querySelectorAll(".marks-input");
+    let totalMarks = 0;
+    let count = 0;
+    let majorSubjects = 0;
+
+    // List of major subject indices (adjust as per requirements)
+    const majorSubjectIndices = [2, 3, 4, 5];
+
+    marksInputs.forEach((input, index) => {
+        const value = parseFloat(input.value) || 0;
+        totalMarks += value;
+        count++;
+
+        if (majorSubjectIndices.includes(index)) {
+            majorSubjects += value;
+        }
+    });
+
+    const percentage = ((totalMarks / (count * 100)) * 100).toFixed(2);
+    const cutOff = ((majorSubjects / (majorSubjectIndices.length * 100)) * 100).toFixed(2);
+
+    document.getElementById("total-marks").textContent = totalMarks.toFixed(2);
+    document.getElementById("percentage").textContent = percentage + "%";
+    document.getElementById("cut-off").textContent = cutOff + "%";
+
+    autoSave({ target: marksInputs[0] }); // Trigger auto-save
+}
+
+// Initialize Auto-Save
+function initializeAutoSave() {
+    document.querySelectorAll("#personal-info input, #personal-info select, #personal-info textarea, #academic-info input, #subject-table input").forEach((input) => {
+        input.addEventListener("input", autoSave);
+    });
+}
+
+// Submit the form
+function handleSubmit() {
+    const isPersonalInfoValid = validateForm("personal-info");
+    const isAcademicInfoValid = validateForm("academic-info");
+
+    if (isPersonalInfoValid && isAcademicInfoValid) {
+        const savedData = loadWithExpiration(storageKey);
+        if (savedData) {
+            
+            localStorage.removeItem(storageKey);
+            
+        }
+    }
+}
+
+
+
+// Initialize on page load
+window.addEventListener("DOMContentLoaded", () => {
+    loadSavedData();
+    initializeAutoSave();
+});
+
+    </script>    
+    <script>
+        document.getElementById('button1Redirect').addEventListener('click', ()=>{
+            setTimeout(()=>{
+                window.location.href = 'register.html'   
+            },3000);
+        });
+        document.getElementById('button2Redirect').addEventListener('click', ()=>{
+            setTimeout(()=>{
+                window.location.href = './studentDashborad.html'   
+            },3000);
+        });        
+    </script>
+    <script>
+    document.getElementById("admission-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        // Collecting form data
+        const formData = {
+            firstName: document.getElementById('first-name').value,
+            lastName: document.getElementById('last-name').value,
+            email: document.getElementById('email').value,
+            phone: document.getElementById('phone').value,
+            aadhaar: document.getElementById('aadhaar').value,
+            bloodGroup: document.getElementById('blood-group').value,
+            dob: document.getElementById('dob').value,
+            gender: document.getElementById('gender').value,
+            address: document.getElementById('address').value,
+            fatherName: document.getElementById('father-name').value,
+            fatherOccupation: document.getElementById('father-occupation').value,
+            motherName: document.getElementById('mother-name').value,
+            motherOccupation: document.getElementById('mother-occupation').value,
+            annualIncome: document.getElementById('annual-income').value,
+            community: document.getElementById('community').value,
+            caste: document.getElementById('caste').value,
+            religion: document.getElementById('religion').value,
+            nationality: document.getElementById('nationality').value,
+            schoolName: document.getElementById('school-name').value,
+            examRegNo: document.getElementById('exam-reg-no').value,
+            schoolEmiNo: document.getElementById('school-emi-no').value,
+            subjects: Array.from(document.querySelectorAll('#subject-table tr')).map(row => ({
+                subject: row.querySelector('.subject').value,
+                marks: row.querySelector('.marks').value
+            })).filter(item => item.subject && item.marks),  // Collect only valid subjects
+            totalMarks: document.getElementById('total-marks').textContent,
+            percentage: document.getElementById('percentage').textContent,
+            cutOff: document.getElementById('cut-off').textContent,
+            passingYear: document.getElementById('passing-year').value,
+            courseType: document.getElementById('course-type').value,
+            courseList: document.getElementById('course-list') ? document.getElementById('course-list').value : '',
+            courseMode: document.getElementById('course-mode').value,
+            physicallyChallenged: document.getElementById('physically-challenged').value,
+            exServiceman: document.getElementById('ex-serviceman').value,
+            activities: document.getElementById('activities').value,
+        };
+
+        // Sending data to the server using fetch API
+        try {
+            const response = await fetch('http://localhost:3000/submit-admission', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }, 
+                body: JSON.stringify(formData),
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                // Handle success
+                alert('Application submitted successfully!');
+            } else {
+                // Handle error
+                alert('Error submitting application');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Something went wrong!');
+        }
+    });
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</body>
+</html>
