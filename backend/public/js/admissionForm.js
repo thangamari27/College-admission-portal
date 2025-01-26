@@ -1,0 +1,328 @@
+function showCourseOptions() {
+    const courseType = document.getElementById('course-type').value;
+    const courseList = document.getElementById('course-list');
+    const optionsUG = ['B.Sc Computer Science', 'B.Com', 'B.A English'];
+    const optionsPG = ['M.Sc Computer Science', 'MBA', 'M.A English'];
+
+    courseList.innerHTML = `<option value="" disabled selected>Select your Course</option>`;
+    (courseType === 'UG' ? optionsUG : optionsPG).forEach(course => {
+        const option = document.createElement('option');
+        option.value = course;
+        option.textContent = course;
+        courseList.appendChild(option);
+    });
+
+    document.getElementById('course-options').classList.remove('d-none');
+}
+
+function nextPage(currentSectionId, targetSectionId,labelId) {
+    if (validateForm(currentSectionId)) {
+        // document.getElementById(currentSectionId).classList.add("d-none");
+        // document.getElementById(targetSectionId).classList.remove("d-none");
+        // document.getElementById(labelId).classList.add('completed');
+        if(labelId === 'extra-info-label'){
+            handleSubmit()
+        }
+    }
+}
+function navigateBack(targetSectionId, currentSectionId,labelId) {
+    // document.getElementById(currentSectionId).classList.add("d-none");
+    // document.getElementById(targetSectionId).classList.remove("d-none");
+    // document.getElementById(labelId).classList.remove('completed');
+    
+}
+
+// validate input
+function validateForm(sectionId) {
+    const section = document.getElementById(sectionId);
+    let valid = true;
+
+    const validationRules = {
+        "first-name": { regex: /^[a-zA-Z\s]+$/, error: "Only letters are allowed." },
+        "last-name": { regex: /^[a-zA-Z\s]+$/, error: "Only letters are allowed." },
+        "email": { regex: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, error: "Please enter a valid email address." },
+        "phone": { regex: /^\d{10}$/, error: "Phone number must be 10 digits." },
+        "aadhaar": { regex: /^\d{12}$/, error: "Aadhaar number must be 12 digits." },
+        "dob": {
+            custom: (value) => {
+                const currentYear = new Date().getFullYear();
+                const birthYear = new Date(value.value).getFullYear();
+                return currentYear - birthYear >= 17 && currentYear - birthYear <= 25;
+            },
+            error: "Date of birth indicates ineligibility. Must be between 17 to 25 years.",
+        },
+        "father-name": { regex: /^[a-zA-Z\s]+$/, error: "Only letters are allowed." },
+        "father-occupation": { regex: /^[a-zA-Z\s]+$/, error: "Only letters are allowed." },
+        "mother-name": { regex: /^[a-zA-Z\s]+$/, error: "Only letters are allowed." },
+        "mother-occupation": { regex: /^[a-zA-Z\s]+$/, error: "Only letters are allowed." },
+        "annual-income": { regex: /^\d+$/, error: "Only numeric values are allowed." },
+        "school-name": { regex: /^[a-zA-Z\s]+$/, error: "Only letters are allowed." },
+        "exam-reg-no": { regex: /^\d+$/, error: "Only numeric values are allowed." },
+        "school-emi-no": { regex: /^\d+$/, error: "Only numeric values are allowed." },
+        "marks-scored": {
+            custom: (value) => /^\d+$/.test(value) && value > 0 && value <= 100,
+            error: "Marks scored must be a number between 1 and 100.",
+        },
+        "documents": {
+            custom: (field) => field.files[0]?.size <= 100 * 1024, // 100KB
+            error: "File size must not exceed 100KB.",
+        },
+    };
+
+    Array.from(section.querySelectorAll("input, select, textarea")).forEach((field) => {
+        const value = field.value.trim();
+        const rule = validationRules[field.id];
+        let errorMessage = "";
+
+        if (rule) {
+            if (rule.regex && !rule.regex.test(value)) {
+                errorMessage = rule.error;
+            
+            } else if (rule.custom && !rule.custom(field)) {
+                errorMessage = rule.error;
+            }
+        } else if (field.required && !value) {
+            errorMessage = `Please fill out the ${field.placeholder || field.id} field.`;
+        }
+
+        if (errorMessage) {
+            field.classList.add("is-invalid");
+            let errorDiv = field.nextElementSibling;
+            if (!errorDiv || !errorDiv.classList.contains("error-message")) {
+                errorDiv = document.createElement("div");
+                errorDiv.className = "error-message text-danger";
+                field.after(errorDiv);
+            }
+            errorDiv.innerText = errorMessage;
+            valid = false;
+        } else {
+            field.classList.remove("is-invalid");
+            const errorDiv = field.nextElementSibling;
+            if (errorDiv && errorDiv.classList.contains("error-message")) {
+                errorDiv.remove();
+            }
+        }
+    });
+
+    return valid;
+}
+
+// Constants for Auto-Save
+const storageKey = "formAutoSave";
+const encryptionKey = "secureEncryptionKey123"; // Secure key
+const ttl = 3600000; // 1 hour (time-to-live)
+
+// Encrypt data using AES
+function encryptData(data) {
+    return CryptoJS.AES.encrypt(JSON.stringify(data), encryptionKey).toString();
+}
+
+// Decrypt data using AES
+function decryptData(encryptedData) {
+    try {
+        const bytes = CryptoJS.AES.decrypt(encryptedData, encryptionKey);
+        return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+    } catch (error) {
+        console.error("Decryption error:", error);
+        return null;
+    }
+}
+
+// Save data to localStorage with expiration
+function saveWithExpiration(key, data) {
+    const timestamp = Date.now();
+    const payload = {
+        data: encryptData(data),
+        timestamp,
+    };
+    localStorage.setItem(key, JSON.stringify(payload));
+}
+
+// Load data from localStorage, checking for expiration
+function loadWithExpiration(key) {
+    const item = localStorage.getItem(key);
+    if (!item) return null;
+
+    const payload = JSON.parse(item);
+    const now = Date.now();
+
+    if (now - payload.timestamp > ttl) {
+        localStorage.removeItem(key);
+        console.warn("Saved data has expired.");
+        return null;
+    }
+
+    return decryptData(payload.data);
+}
+
+// Auto-save function for individual fields
+function autoSave(event) {
+    const field = event.target;
+    const savedData = loadWithExpiration(storageKey) || {};
+
+    if (field.id) {
+        savedData[field.id] = field.value.trim();
+    } else if (field.closest("#subject-table")) {
+        const rows = Array.from(document.querySelectorAll("#subject-table tr"));
+        const tableData = rows.map((row) => {
+            const subject = row.querySelector("input[type='text']").value.trim();
+            const marks = row.querySelector(".marks-input").value.trim();
+            return { subject, marks };
+        });
+        savedData["subject-table"] = tableData;
+    }
+
+    saveWithExpiration(storageKey, savedData);
+}
+
+// Initialize subject count
+let subjectCount = 0;
+
+// Load saved data when the page loads
+window.onload = function () {
+    loadSavedData();
+};
+
+// Load saved data and populate fields
+function loadSavedData() {
+    const savedData = loadWithExpiration(storageKey); // Assuming you have loadWithExpiration implemented
+
+    if (savedData) {
+        Object.keys(savedData).forEach((key) => {
+            if (key === "subject-table") {
+                const tableBody = document.getElementById("subject-table");
+
+                // Clear existing rows to avoid duplicates
+                tableBody.innerHTML = "";
+
+                // Add rows from saved data
+                savedData[key].forEach((rowData) => {
+                    addSubjectRow(rowData.subject, rowData.marks);
+                });
+            } else {
+                const field = document.getElementById(key);
+                if (field) {
+                    field.value = savedData[key];
+                }
+            }
+        });
+        calculateMarks(); // Update calculated values on load
+    }
+}
+
+// Dynamically add a new subject row
+function addSubject(subjectName = "", subjectMarks = "") {
+    const table = document.getElementById("subject-table");
+    const row = document.createElement("tr");
+    row.id = `subjects-container-${++subjectCount}`;
+    row.innerHTML = `
+        <td class="subject-entry"><input type="text" name="subject_${subjectCount}_name" class="form-control" value="${subjectName}" placeholder="Enter subject" required></td>
+        <td><input type="number" name="subject_${subjectCount}_marks" class="marks-input" value="${subjectMarks}" placeholder="Enter marks" oninput="calculateMarks()" required></td>
+    `;
+    table.appendChild(row);
+}
+
+// Add subject rows with saved data (helper function)
+function addSubjectRow(subjectName, subjectMarks) {
+    addSubject(subjectName, subjectMarks);
+}
+
+// Add subject data to FormData dynamically
+function appendSubjectsToFormData(formData) {
+    const subjectsContainer = document.getElementById("subject-table"); // Refers to the table containing subjects
+    const subjectRows = subjectsContainer.querySelectorAll("tr[id^='subjects-container']");
+
+    subjectRows.forEach((row, index) => {
+        const subjectNameField = row.querySelector('input[name^="subject_"][name$="_name"]');
+        const subjectMarksField = row.querySelector('input[name^="subject_"][name$="_marks"]');
+
+        if (subjectNameField && subjectMarksField) {
+            formData.append(`subject_${index + 1}_name`, subjectNameField.value);
+            formData.append(`subject_${index + 1}_marks`, subjectMarksField.value);
+        }
+    });
+}
+
+// Calculate total marks, percentage, and cut-off
+function calculateMarks() {
+    const marksInputs = document.querySelectorAll(".marks-input");
+    let totalMarks = 0;
+    let count = 0;
+    let majorSubjects = 0;
+
+    // List of major subject indices (adjust as per requirements)
+    const majorSubjectIndices = [2, 3, 4, 5];
+
+    // Calculate total marks and major subject marks
+    marksInputs.forEach((input, index) => {
+        const value = parseFloat(input.value) || 0;
+        totalMarks += value;
+        count++;
+
+        if (majorSubjectIndices.includes(index)) {
+            majorSubjects += value;
+        }
+    });
+
+    // Calculate percentage and cut-off marks
+    const percentage = ((totalMarks / (count * 100)) * 100).toFixed(2);
+    const cutOffMarks = ((majorSubjects / (majorSubjectIndices.length * 100)) * 100).toFixed(2);
+
+    // Update the visible display fields
+    document.getElementById("total-marks-display").textContent = totalMarks.toFixed(2);
+    document.getElementById("percentage-display").textContent = `${percentage}%`;
+    document.getElementById("cut-off-display").textContent = cutOffMarks;
+
+    // Update the hidden input fields for form submission
+    document.getElementById("total-marks").value = totalMarks.toFixed(2);
+    document.getElementById("percentage").value = percentage;
+    document.getElementById("cut-off").value = cutOffMarks;
+
+    // Trigger auto-save for persistence
+    if (marksInputs.length > 0) {
+        autoSave({ target: marksInputs[0] });
+    }
+}
+
+
+// Initialize Auto-Save
+function initializeAutoSave() {
+    document.querySelectorAll("#personal-info input, #personal-info select, #personal-info textarea, #academic-info input, #subject-table input").forEach((input) => {
+        input.addEventListener("input", autoSave);
+    });
+}
+
+// Submit the form
+function handleSubmit() {
+    const isPersonalInfoValid = validateForm("personal-info");
+    const isAcademicInfoValid = validateForm("academic-info");
+
+    if (isPersonalInfoValid && isAcademicInfoValid) {
+        const savedData = loadWithExpiration(storageKey);
+        if (savedData) {
+            
+            localStorage.removeItem(storageKey);
+            
+        }
+    }
+}
+
+
+
+// Initialize on page load
+window.addEventListener("DOMContentLoaded", () => {
+    loadSavedData();
+    initializeAutoSave();
+});
+
+    document.getElementById('button1Redirect').addEventListener('click', ()=>{
+            setTimeout(()=>{
+                window.location.href = 'register.html'   
+            },3000);
+        });
+        document.getElementById('button2Redirect').addEventListener('click', ()=>{
+            setTimeout(()=>{
+                window.location.href = './studentDashborad.html'   
+            },3000);
+        });        
+
