@@ -1,20 +1,24 @@
 const jwt = require('jsonwebtoken');
 
 exports.authenticateToken = (req, res, next) => {
-  const token = req.cookies.token; // Assuming you're using cookies for storing JWT
-  console.log(token);
-  if (!token) {
-    console.log('Missing token. Redirecting to login.');
-    return res.redirect('/login');
-}
-try {
-    const verified = jwt.verify(token, process.env.JWT_SECRET);
-    console.log(verified);
-    req.user = verified;
-    next();
-} catch (error) {
-    console.log('Invalid token:', error.message);
-    return res.redirect('/login');
-}
+  const token = req.cookies.jwt; // JWT stored as 'jwt'
 
+  if (!token) {
+    console.log('Missing token. Redirecting to signup.');
+    return res.redirect('/signup');
+  }
+
+  try {
+    // Verify token
+    const verifiedUser = jwt.verify(token, process.env.JWT_SECRET);
+    console.log('Token verified:', verifiedUser);
+
+    // Attach user info to the request object
+    req.user = verifiedUser;
+
+    next(); // Proceed to the next middleware or route handler
+  } catch (error) {
+    console.error('Invalid token:', error.message);
+    return res.redirect('/login'); // Redirect if token is invalid
+  }
 };
