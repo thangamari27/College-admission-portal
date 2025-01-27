@@ -1,13 +1,15 @@
 const express = require('express');
 const { signup } = require('../controllers/authController');
-const { renderHome } = require('../controllers/homeController');
 const { authenticateToken } = require('../middleware/authenticateToken');
 
 const router = express.Router();
 
+// Signup route
 router.post('/signup', signup);
 
-// Home route (protected)
-router.get('/college-home', authenticateToken, renderHome);
+// Protected home route
+router.get('/college-home', authenticateToken, (req, res) => {
+  res.render('college_home', { user: req.user });
+});
 
 module.exports = router;
