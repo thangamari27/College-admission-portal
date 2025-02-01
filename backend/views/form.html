@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Admission Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../public/css/admissionForm.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <!-- Header Section -->
+        <div class="d-flex justify-content-between mb-4 gap-3 ">
+            <button id="personal-info-label" class="btn btn-danger border-0 p-3 w-75 w-50 text-md-start text-sm-center"><span class="info-label-icon"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16">
+              <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0m-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+              <path d="M2 13c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/>
+            </svg></span><span class="info-label-name">Personal Info</span></button>
+            <button id="academic-info-label" class="btn btn-danger border-0 p-3 w-75 w-50 text-md-start text-sm-center"><span class="info-label-icon"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-bank" viewBox="0 0 16 16">
+              <path d="m8 0 6.61 3h.89a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H15v7a.5.5 0 0 1 .485.38l.5 2a.498.498 0 0 1-.485.62H.5a.498.498 0 0 1-.485-.62l.5-2A.5.5 0 0 1 1 13V6H.5a.5.5 0 0 1-.5-.5v-2A.5.5 0 0 1 .5 3h.89zM3.777 3h8.447L8 1zM2 6v7h1V6zm2 0v7h2.5V6zm3.5 0v7h1V6zm2 0v7H12V6zM13 6v7h1V6zm2-1V4H1v1zm-.39 9H1.39l-.25 1h13.72z"/>
+            </svg></span><span class="info-label-name">Academic Info</span></button>
+            <button id="extra-info-label" class="btn btn-danger border-0 p-3 w-75 w-50 text-md-start text-sm-center"><span class="info-label-icon"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-bookmark-plus" viewBox="0 0 16 16">
+              <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/>
+              <path d="M8 4a.5.5 0 0 1 .5.5V6H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V7H6a.5.5 0 0 1 0-1h1.5V4.5A.5.5 0 0 1 8 4"/>
+            </svg></span><span class="info-label-name">Extra Info</span></button>
+        </div>
+
+        <!-- Form Section -->
+        <div class="cotnainer">
+            <form id="admission-form" action="" method="post" enctype="multipart/form-data">
+            
+                <div id="personal-info" class="form-section">
+                    <h3>Personal Information</h3>
+                    <div class="row">
+                        <!-- First Name -->
+                        <div class="col-md-6 mb-3">
+                            <label for="first-name" class="form-label">First Name</label>
+                            <input type="text" id="first-name" name="FirstName" class="form-control" placeholder="Enter your first name" required>
+                            <span class="text-danger d-none" id="first-name-error">First name is required.</span>
+                        </div>
+                        <!-- Last Name -->
+                        <div class="col-md-6 mb-3">
+                            <label for="last-name" class="form-label">Last Name</label>
+                            <input type="text" id="last-name" name="LastName" class="form-control" placeholder="Enter your last name" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Email -->
+                        <div class="col-md-6 mb-3">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" id="email" name="EmailAddress" class="form-control" placeholder="example@domain.com" required>
+                        </div>
+                        <!-- Phone Number -->
+                        <div class="col-md-6 mb-3">
+                            <label for="phone" class="form-label">Phone Number</label>
+                            <input type="tel" id="phone" name="PhoneNumber" class="form-control" placeholder="Enter your phone number" required>
+                        </div>
+                    </div>
+            
+                    <div class="row">
+                        <!-- Aadhaar -->
+                        <div class="col-md-6 mb-3">
+                            <label for="aadhaar" class="form-label">Aadhaar Number</label>
+                            <input type="text" id="aadhaar" name="AadhaarNumber" class="form-control" placeholder="Enter your Aadhaar number" required>
+                        </div>
+                        <!-- Blood Group -->
+                        <div class="col-md-6 mb-3">
+                            <label for="blood-group" class="form-label">Blood Group</label>
+                            <select id="blood-group" name="BloodGroup" class="form-select" required>
+                                <option value="" disabled selected>Select your blood group</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                            </select>
+                        </div>
+                    </div>
+            
+                    <div class="row">
+                        <!-- DOB -->
+                        <div class="col-md-6 mb-3">
+                            <label for="dob" class="form-label">Date of Birth</label>
+                            <input type="date" id="dob" name="DateOfBirth" class="form-control" placeholder="dd-mm-yyyy" required>
+                        </div>
+                        <!-- Gender -->
+                        <div class="col-md-6 mb-3">
+                            <label for="gender" class="form-label">Gender</label>
+                            <select id="gender" name="Gender" class="form-select" required>
+                                <option value="" disabled selected>Select your gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+            
+                    <div class="mb-3">
+                        <!-- Address -->
+                        <label for="address" class="form-label">Address</label>
+                        <textarea id="address" name="Address" class="form-control" rows="3" placeholder="Enter your full address" required></textarea>
+                    </div>
+            
+                    <div class="row">
+                        <!-- Father Name -->
+                        <div class="col-md-6 mb-3">
+                            <label for="father-name" class="form-label">Father's Name</label>
+                            <input type="text" id="father-name" name="FathersName" class="form-control" placeholder="Enter your father's name" required>
+                        </div>
+                        <!-- Father Occupation -->
+                        <div class="col-md-6 mb-3">
+                            <label for="father-occupation" class="form-label">Father's Occupation</label>
+                            <input type="text" id="father-occupation" name="FathersOccupation" class="form-control" placeholder="Enter your father's occupation" required>
+                        </div>
+                    </div>
+            
+                    <div class="row">
+                        <!-- Mother Name -->
+                        <div class="col-md-6 mb-3">
+                            <label for="mother-name" class="form-label">Mother's Name</label>
+                            <input type="text" id="mother-name" name="MothersName" class="form-control" placeholder="Enter your mother's name" required>
+                        </div>
+                        <!-- Mother Occupation -->
+                        <div class="col-md-6 mb-3">
+                            <label for="mother-occupation" class="form-label">Mother's Occupation</label>
+                            <input type="text" id="mother-occupation" name="MothersOccupation" class="form-control" placeholder="Enter your mother's occupation" required>
+                        </div>
+                    </div>
+            
+                    <div class="row">
+                        <!-- Annual Income -->
+                        <div class="col-md-6 mb-3">
+                            <label for="annual-income" class="form-label">Annual Income</label>
+                            <input type="number" id="annual-income" name="AnnualIncome" class="form-control" placeholder="Enter annual family income" required>
+                        </div>
+                        <!-- Community -->
+                        <div class="col-md-6 mb-3">
+                            <label for="community" class="form-label">Community</label>
+                            <select id="community" name="Community" class="form-select" required>
+                                <option value="" disabled selected>Select your community</option>
+                                <option value="Community1">Community 1</option>
+                                <option value="Community2">Community 2</option>
+                                <option value="Community3">Community 3</option>
+                            </select>
+                        </div>
+                    </div>
+            
+                    <div class="row">
+                        <!-- Caste -->
+                        <div class="col-md-6 mb-3">
+                            <label for="caste" class="form-label">Caste</label>
+                            <select id="caste" name="Caste" class="form-select" required>
+                                <option value="" disabled selected>Select your caste</option>
+                                <option value="Caste1">Caste 1</option>
+                                <option value="Caste2">Caste 2</option>
+                                <option value="Caste3">Caste 3</option>
+                            </select>
+                        </div>
+                        <!-- Religion -->
+                        <div class="col-md-6 mb-3">
+                            <label for="religion" class="form-label">Religion</label>
+                            <select id="religion" name="Religion" class="form-select" required>
+                                <option value="" disabled selected>Select your religion</option>
+                                <option value="Religion1">Religion 1</option>
+                                <option value="Religion2">Religion 2</option>
+                                <option value="Religion3">Religion 3</option>
+                            </select>
+                        </div>
+                    </div>
+            
+                    <!-- Nationality -->
+                    <div class="mb-3">
+                        <label for="nationality" class="form-label">Nationality</label>
+                        <input type="text" id="nationality" name="Nationality" class="form-control" placeholder="Enter your nationality" required>
+                    </div>
+            
+                    <div class="mb-3 text-end">
+                        <button type="reset" class="btn btn-secondary px-5 btn-sm btn-md btn-lg">Clear</button>
+                        <!-- <button type="submit" class="btn btn-primary px-5 btn-sm btn-md btn-lg" onclick="nextPage('personal-info', 'academic-info', 'personal-info-label')">Next</button> -->
+                        <button type="button" class="btn btn-primary px-5  btn-sm btn-md btn-lg " onclick="nextPage('personal-info', 'academic-info', 'personal-info-label')">Next</button>
+                    </div>
+                </div>
+            
+            <!-- Academic layout -->
+            <div id="academic-info" class="form-section d-none">
+                <div class="mb-3 text-start">
+                    <div class="mb-3 text-start">
+                        <button type="button" class="btn btn-secondary" onclick="navigateBack( 'personal-info','academic-info','personal-info-label')">Back</button>
+                    </div>
+                </div>
+                <h3>Academic Information</h3>
+                    <!-- School Name -->
+                    <div class="mb-3">
+                        <label for="school-name" class="form-label">School Name</label>
+                        <input type="text" id="school-name" name="SchoolName" class="form-control" placeholder="Enter your school name" required>
+                    </div>
+
+                    <div class="row">
+                        <!-- Exam Register Number -->
+                        <div class="col-md-6 mb-3">
+                            <label for="exam-reg-no" class="form-label">12th Exam Register Number</label>
+                            <input type="text" id="exam-reg-no" name="ExamRegisterNumber" class="form-control" placeholder="Enter your exam register number" required>
+                        </div>
+
+                        <!-- School Emis Number -->
+                        <div class="col-md-6 mb-3">
+                            <label for="school-emi-no" class="form-label">EMI Number</label>
+                            <input type="text" id="school-emi-no" name="Emis_no" class="form-control" placeholder="Enter your EMI number" required>
+                        </div>
+                    </div>
+
+                    <!-- Subjects and Marks -->
+                    <label class="form-label">Subjects and Marks</label>
+                    <div class="table-responsive mb-3">
+                        <table class="table table-bordered text-center">
+                            <thead>
+                                <tr>
+                                    <th>Subject</th>
+                                    <th>Marks Scored</th>
+                                </tr>
+                            </thead>
+                            <tbody id="subject-table">
+
+                            </tbody>
+                        </table>
+                        <button type="button" class="btn btn-secondary" onclick="addSubject()">Add Another Subject</button>
+                    </div>
+
+                    <!-- Results -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Total Marks</label>
+                            <div class="result-box" id="total-marks-display">0</div>
+                            <input type="hidden" name="TotalMarks" id="total-marks" value="0">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Percentage</label>
+                            <div class="result-box" id="percentage-display">0%</div>
+                            <input type="hidden" name="MarkPercentage" id="percentage" value="0">
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">Cut-Off Marks (Major Subjects Only)</label>
+                        <div class="result-box" id="cut-off-display">0</div>
+                        <input type="hidden" name="CutOffMarks" id="cut-off" value="0">
+                    </div>
+
+
+                    <!-- Month & Year of Passing -->
+                    <div class="mb-3">
+                        <label for="passing-year" class="form-label">Month & Year of Passing</label>
+                        <input type="month" id="passing-year" name="MonthYearPassing" class="form-control" required>
+                    </div>
+
+                    <!-- Course Type -->
+                    <div class="mb-3">
+                        <label class="form-label">Course Type</label>
+                        <select id="course-type" class="form-select" name="CourseType" onchange="showCourseOptions()" required>
+                            <option value="" disabled selected>Select course type</option>
+                            <option value="UG">Undergraduate (UG)</option>
+                            <option value="PG">Postgraduate (PG)</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Course List -->
+                    <div id="course-options" class="mb-3 d-none">
+                        <label class="form-label">Preferred Course</label>
+                        <select id="course-list" class="form-select" name="CourseName" required>
+                            <!-- Dynamic Options based on Course Type -->
+                        </select>
+                    </div>
+
+                    <!-- Course Mode -->
+                    <div class="mb-3">
+                        <label class="form-label">Course Mode</label>
+                        <select id="course-mode" name="CourseMode" class="form-select" required>
+                            <option value="" disabled selected>Select course mode</option>
+                            <option value="Regular">Regular</option>
+                            <option value="Self Finance">Self Finance</option>
+                        </select>
+                    </div>
+
+                    <!-- Document Upload -->
+                    <label class="form-label">Upload Documents</label>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Passport Size Photo</label>
+                            <input type="file" name="PassportPhoto" accept="image/*" class="form-control" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Aadhaar Card</label>
+                            <input type="file" name="AadhaarCard" accept="image/*" class="form-control" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Transfer Certificate</label>
+                            <input type="file" name="TransferCertificate" accept="image/*" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="mb-3 text-end">
+                        <button type="reset" class="btn btn-secondary px-5 btn-sm btn-md btn-lg">Clear</button>
+                        <!-- <button type="submit" class="btn btn-primary px-5 btn-sm btn-md btn-lg " onclick="nextPage('academic-info','extra-info', 'academic-info-label')">Next</button> -->
+                        <button type="button" class="btn btn-primary px-5 btn-sm btn-md btn-lg " onclick="nextPage('academic-info','extra-info', 'academic-info-label')">Next</button>
+                      </div>
+                    </div>
+            
+            <!-- Extra-info layout -->
+            <div id="extra-info" class="form-section d-none">
+                <div class="mb-3 text-start">
+                    <div class="mb-3 text-start">
+                        <button type="button" class="btn btn-secondary" onclick="navigateBack('academic-info', 'extra-info','academic-info-label')">Back</button>
+                    </div>
+                </div>
+                <h3>Extra Information</h3>
+                <div class="mb-3">
+                    <label for="physically-challenged" class="form-label">Physically Challenged?</label>
+                    <select class="form-select" id="physically-challenged" name="physicallyChallenged" required>
+                        <option value="" disabled selected>Choose an option</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="ex-serviceman" class="form-label">Ex-Serviceman</label>
+                    <select class="form-select" id="ex-serviceman" name="exServiceman" required>
+                        <option value="" disabled selected>Choose an option</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="activities" class="form-label">Sports, NSS, NCC Details</label>
+                    <select class="form-select" id="activities" name="activities" required>
+                        <option value="" disabled selected>Select activities</option>
+                        <option value="Sports">Sports</option>
+                        <option value="NSS">NSS</option>
+                        <option value="NCC">NCC</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <button type="button" id="formSubmit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#successModal" onclick="nextPage('extra-info','successModal','extra-info-label')">Submit</button>
+            </div>
+            <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="icon">&#10004;</div>
+                            <h5>Application Submitted Successfully</h5>
+                            <p>Your application has been received successfully. We will review your details and get back to you soon.<br>Thank you for applying!</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="button1Redirect" class=" btn btn-primary">Explore More Courses</button>
+                            <button type="button" id="button2Redirect" class=" btn btn-danger" >Go to Student Dashboard</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </form>
+            
+        </div>
+    </div>
+
+    <script src="../public/js/admissionForm.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</body>
+</html>
