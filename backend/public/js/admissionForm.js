@@ -293,31 +293,86 @@ function initializeAutoSave() {
 // Submit the form
 async function submitAdmissionForm(formData) {
     try {
-        // Gather all form data (Personal Info, Academic Info, Extra Info)
-        const formData = new FormData(document.getElementById("admission-form"));
-        
-        // Send the data using fetch API with POST method
+        // Send form data to backend
         const response = await fetch('http://localhost:5000/admission/submitForm', {
             method: "POST",
             body: formData,
         });
 
+        console.log(response);
+        const data = await response.json();
+        console.log(data);
+
+        // Get the modal container
+        const modalContainer = document.getElementById('successModalContent');
+
         // Handle response
         if (response.ok) {
-            alert("Admission submitted successfully!");
+            modalContainer.innerHTML = `
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="icon text-success" style="font-size: 3rem;">&#10004;</div>
+                    <h5 class="text-success">Application Submitted Successfully</h5>
+                    <p>Your application has been received successfully. We will review your details and get back to you soon.<br>Thank you for applying!</p>
+                    <p><strong>Admission ID:</strong> ${data.admissionID}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="button1Redirect" class="btn btn-primary">Explore More Courses</button>
+                    <button type="button" id="button2Redirect" class="btn btn-danger">Go to Student Dashboard</button>
+                </div>
+            `;
         } else {
-            alert("Error submitting admission. Please try again.");
+            modalContainer.innerHTML = `
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="icon text-danger" style="font-size: 3rem;">&#10060;</div>
+                    <h5 class="text-danger">Submission Failed</h5>
+                    <p>Something went wrong while submitting your application. Please try again later.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            `;
         }
+
+        // Show the modal
+        const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+        successModal.show();
+
     } catch (error) {
         console.error("Error submitting form:", error);
-        alert("An error occurred. Please try again later.");
+
+        // Get the modal container
+        const modalContainer = document.getElementById('successModalContent');
+        modalContainer.innerHTML = `
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <div class="icon text-danger" style="font-size: 3rem;">&#10060;</div>
+                <h5 class="text-danger">An error occurred</h5>
+                <p>There was an issue processing your request. Please try again later.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        `;
+
+        // Show the modal
+        const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+        successModal.show();
     }
 }
 
-const formElement = document.getElementById('admission-form'); // Assuming you have a form with this ID
+// Add event listener to form
+const formElement = document.getElementById('admission-form'); 
 formElement.addEventListener('submit', (event) => {
-    event.preventDefault(); // Prevent the default form submission
+    event.preventDefault(); // Prevent default form submission
 
-    const formData = new FormData(formElement); // Create a FormData object from the form
-    submitAdmissionForm(formData); // Call the function to submit the form
+    const formData = new FormData(formElement); // Create FormData object
+    submitAdmissionForm(formData); // Submit the form
 });
