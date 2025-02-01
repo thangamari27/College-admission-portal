@@ -1,40 +1,37 @@
-// admissionController.js
 const db = require("../config/db");
 
-let studentCounter = 0; // Counter for student IDs 
-let ugCounter = 0; // Counter for undergraduate admissions
-let pgCounter = 0; // Counter for postgraduate admissions
 const collegeCode = '107'; // Example college code
-const currentYear = new Date().getFullYear().toString().slice(-2); // Get last two digits of the current year
+const currentYear = new Date().getFullYear().toString().slice(-2); // Last two digits of the current year
 
-// Function to generate a student ID
-function generateStudentId() {
-    studentCounter++;
-    return `STU${studentCounter.toString().padStart(6, '0')}`; // e.g., STU-000001
+// Fetch the last Student ID and increment
+async function generateStudentId() {
+    const [rows] = await db.query(`SELECT StudentID FROM PersonalInfo ORDER BY StudentID DESC LIMIT 1`);
+    let lastId = rows.length > 0 ? parseInt(rows[0].StudentID.replace("STU", ""), 10) : 0;
+    let newId = lastId + 1;
+    return `STU${newId.toString().padStart(6, '0')}`; // e.g., STU000001
 }
 
-// Function to generate an academic ID
-function generateAcademicId() {
-    return `ACAD${studentCounter.toString().padStart(6, '0')}`; // e.g., ACAD-000001
+// Fetch the last Academic ID and increment
+async function generateAcademicId() {
+    const [rows] = await db.query(`SELECT AcademicID FROM AcademicInfo ORDER BY AcademicID DESC LIMIT 1`);
+    let lastId = rows.length > 0 ? parseInt(rows[0].AcademicID.replace("ACAD", ""), 10) : 0;
+    let newId = lastId + 1;
+    return `ACAD${newId.toString().padStart(6, '0')}`;
 }
 
-// Function to generate an admission ID (for UG/PG)
-function generateAdmissionId(courseType) {
-    let counter;
-    
-    if (courseType === 'UG') {
-        ugCounter++;
-        counter = ugCounter;
-        return `UG${currentYear}${collegeCode}${counter.toString().padStart(4, '0')}`; // e.g., UG251070001
-    } else if (courseType === 'PG') {
-        pgCounter++;
-        counter = pgCounter;
-        return `PG${currentYear}${collegeCode}${counter.toString().padStart(4, '0')}`; // e.g., PG251070001
-    } else {
-        throw new Error('Invalid program type. Use "UG" or "PG".');
-    }
+// Fetch the last Admission ID and increment
+async function generateAdmissionId(courseType) {
+    let table = "AdmissionRecords";
+    let prefix = courseType === "UG" ? "UG" : "PG";
+
+    const [rows] = await db.query(`SELECT AdmissionID FROM ${table} WHERE AdmissionID LIKE '${prefix}%' ORDER BY AdmissionID DESC LIMIT 1`);
+    let lastId = rows.length > 0 ? parseInt(rows[0].AdmissionID.slice(-4)) : 0;
+    let newId = lastId + 1;
+
+    return `${prefix}${currentYear}${collegeCode}${newId.toString().padStart(4, '0')}`;
 }
 
+// Submit Admission Form
 const submitAdmissionForm = async (req, res) => {
     const {
         // Personal Info
@@ -51,8 +48,8 @@ const submitAdmissionForm = async (req, res) => {
         physicallyChallenged, exServiceman, activities
     } = req.body;
 
-    console.log(req.body); // Check if it outputs "UG" or "PG"
-    console.log(CourseType); // Check if it outputs "UG" or "PG"
+    console.log(req.body); // Debugging output
+    console.log(CourseType); // Debugging output
 
     try {
         // Validate required fields
@@ -67,14 +64,12 @@ const submitAdmissionForm = async (req, res) => {
         if (!emailRegex.test(EmailAddress)) return res.status(400).json({ message: "Invalid email format." });
         if (!phoneRegex.test(PhoneNumber)) return res.status(400).json({ message: "Invalid phone number format." });
 
-        // Generate Student ID, Academic ID, and Admission ID
-        const studentID = generateStudentId();
-        const academicID = generateAcademicId();
-        const admissionID = generateAdmissionId(CourseType); // Use CourseType as it's destructured from req.body
+        // Generate unique IDs
+        const studentID = await generateStudentId();
+        const academicID = await generateAcademicId();
+        const admissionID = await generateAdmissionId(CourseType); 
 
-        console.log(studentID);
-        console.log(academicID);
-        console.log(admissionID);
+        console.log(studentID, academicID, admissionID); // Debugging output
 
         // Get a connection from the pool
         const connection = await db.getConnection();
@@ -99,6 +94,7 @@ const submitAdmissionForm = async (req, res) => {
                 MarkPercentage, CutOffMarks, MonthYearPassing, CourseType, CourseName, CourseMode,
                 PassportPhoto, AadhaarCard, TransferCertificate
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+
             [
                 academicID, studentID, SchoolName, ExamRegisterNumber, Emis_no, JSON.stringify(Subjects),
                 TotalMarks, MarkPercentage, CutOffMarks, MonthYearPassing, CourseType, CourseName,
@@ -111,15 +107,26 @@ const submitAdmissionForm = async (req, res) => {
             `INSERT INTO ExtraInfo (
                 StudentID, physically_challenged, ex_serviceman, activities
             ) VALUES (?, ?, ?, ?)`,
-            [
-                studentID, physicallyChallenged, exServiceman, activities
-            ]
+
+            [studentID, physicallyChallenged, exServiceman, activities]
+        );
+
+        // Insert into AdmissionRecords table
+        await connection.query(
+            `INSERT INTO AdmissionRecords (AdmissionID, StudentID) VALUES (?, ?)`,
+            [admissionID, studentID]
         );
 
         // Release the connection back to the pool
         connection.release();
 
-        res.status(201).json({ message: "Admission form submitted successfully!", studentID, academicID, admissionID });
+        res.status(201).json({
+            message: "Admission form submitted successfully!",
+            studentID,
+            academicID,
+            admissionID
+        });
+
     } catch (error) {
         console.error("Error:", error);
         res.status(500).json({ message: "Internal server error." });
