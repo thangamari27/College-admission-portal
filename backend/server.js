@@ -6,12 +6,14 @@ const path = require('path');
 const dotenv = require('dotenv');
 const hbs = require('hbs');
 
+
 // Import routes
 const authRoute = require('./routes/authRoutes');
 const coursesRouter = require('./routes/coursesRoute');
 const courseSeatsRouter = require('./routes/course_seats');
 const { authenticateToken } = require('./middleware/authenticateToken');
 const admissionRoutes = require("./routes/admissionRoutes");
+const uploadRoutes = require('./routes/uploadRoutes');
 
 dotenv.config();
 
@@ -22,9 +24,13 @@ app.use(cors({ origin: 'http://localhost:3000', credentials: true })); // Allow 
 app.use(bodyParser.urlencoded({ extended: true })); // Parse URL-encoded data
 app.use(bodyParser.json()); // Parse JSON request bodies
 app.use(cookieParser()); // Parse cookies
+// Increase payload size for JSON and URL-encoded requests
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 
 // Static files (CSS, JS)
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/uploads', express.static(process.env.UPLOADS_DIR || 'uploads'));
 
 // Set up hbs as the view engine
 app.set('view engine', 'hbs');
@@ -37,6 +43,8 @@ app.use('/api/auth', authRoute);
 app.use('/api/courses', coursesRouter);
 app.use('/api/course_seats', courseSeatsRouter);
 app.use("/admission", admissionRoutes);
+app.use('/api', uploadRoutes);
+
 
 // Render views for the frontend pages
 app.get('/', (req, res) => res.render('college-dashboard')); 
