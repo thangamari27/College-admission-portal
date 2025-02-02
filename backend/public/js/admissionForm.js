@@ -319,8 +319,8 @@ async function submitAdmissionForm(formData) {
                     <p><strong>Admission ID:</strong> ${data.admissionID}</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="button1Redirect" class="btn btn-primary">Explore More Courses</button>
-                    <button type="button" id="button2Redirect" class="btn btn-danger">Go to Student Dashboard</button>
+                    <a href="/courses" id="button1Redirect" class="btn btn-primary d-inline-block">Explore More Courses</a>
+                    <a href="/student-dashboard" id="button2Redirect" class="btn btn-danger d-inline-block">Go to Student Dashboard</a>
                 </div>
             `;
         } else {
