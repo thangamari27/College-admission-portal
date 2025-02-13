@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Student Dashboard</title>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+      <link rel="stylesheet" href="./css/studentDashboard.css">
+   </head>
+   <body>
+      <!-- Header -->
+      <nav class="navbar navbar-expand-lg navbar-dark" style="background: linear-gradient(to right, blue, dodgerblue);">
+         <div class="container-fluid">
+           <a class="navbar-brand" href="#">Student Dashboard</a>
+           <div class="dropdown" >
+             <button 
+               class="btn dropdown-toggle" 
+               type="button" 
+               id="dropdownMenuButton" 
+               data-bs-toggle="dropdown" 
+               aria-expanded="false" >
+               <svg xmlns="http://www.w3.org/2000/svg"  width="40px" height="40px" fill="white" class="bi bi-person-circle" viewBox="0 0 16 16">
+                 <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                 <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+               </svg>
+             </button>
+             <ul class="dropdown-menu dropdown-menu-start" aria-labelledby="dropdownMenuButton">
+               <li><a class="dropdown-item bg-white text-dark" href="#option1"><svg class="mx-2" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black" class="bi bi-person-fill" viewBox="0 0 16 16">
+                  <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                </svg>Profile</a></li>
+               <li><a class="dropdown-item bg-white text-dark" href="#option2"> <svg class="mx-2" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/>
+                  <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
+                </svg>Logout</a></li>
+             </ul>
+           </div>
+         </div>
+       </nav>
+      <!-- Main Container -->
+      <div class="container-fluid" style="background-color: whitesmoke;">
+      <div class="row">
+         <!-- Sidebar -->
+         <nav class="col-md-3 col-lg-3  d-md-flex flex-column justify-content-between sidebar collapse text-center bg-white">
+            <div class="position-sticky">
+               <ul class="nav flex-column py-1">
+                  <li class="nav-item py-3">
+                     <div class="container nav-link">
+                        <div class="row">
+                           <div class="col-4 text-end">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="grey" class="bi bi-house" viewBox="0 0 16 16">
+                                 <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
+                              </svg>
+                           </div>
+                           <div class="col-8 text-secondary text-start py-1 title"> <span>Dashboard</span></div>
+                        </div>
+                     </div>
+                  </li>
+                  <li class="nav-item py-3">
+                     <div class="list-container" data-bs-toggle="modal" data-bs-target="#applicationstatus">
+                        <div class="container nav-link">
+                           <div class="row">
+                              <div class="col-4 text-end">
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="grey" class="bi bi-card-checklist" viewBox="0 0 16 16">
+                                    <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2z"/>
+                                    <path d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0M7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0"/>
+                                 </svg>
+                              </div>
+                              <div class="col-8 text-secondary text-start py-1 title"><span>Status</span></div>
+                           </div>
+                        </div>
+                     </div>
+                  </li>
+                  <li class="nav-item py-3">
+                     <div class=" list-container" data-bs-toggle="modal" data-bs-target="#notification">
+                        <div class="container nav-link">
+                           <div class="row">
+                              <div class="col-4 text-end">
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="grey" class="bi bi-bell-fill" viewBox="0 0 16 16">
+                                    <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2m.995-14.901a1 1 0 1 0-1.99 0A5 5 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901"/>
+                                 </svg>
+                              </div>
+                              <div class="col-8 text-secondary text-start py-1 title"> <span>Notifications</span></div>
+                           </div>
+                        </div>
+                     </div>
+                  </li>
+                  <li class="nav-item py-3">
+                     <div class="list-container" data-bs-toggle="modal" data-bs-target="#resources">
+                        <div class="container nav-link">
+                           <div class="row">
+                              <div class="col-4 text-end">
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="grey" class="bi bi-download" viewBox="0 0 16 16">
+                                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+                                    <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/>
+                                 </svg>
+                              </div>
+                              <div class="col-8  text-secondary text-start py-1 title"> <span>Resources</span></div>
+                           </div>
+                        </div>
+                     </div>
+                  </li>
+                  <li class="nav-item py-3">
+                     <div class="list-container"  data-bs-toggle="modal" data-bs-target="#communication">
+                        <div class="container nav-link">
+                           <div class="row">
+                              <div class="col-4 text-end">
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="grey" class="bi bi-telephone-fill" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"/>
+                                 </svg>
+                              </div>
+                              <div class="col-8  text-secondary text-start py-1 title"><span>Contact</span></div>
+                           </div>
+                        </div>
+                     </div>
+                  </li>
+               </ul>
+            </div>
+            <div class="profile-logout align-bottom" >
+               <ul>
+                  <li class="">
+                 <a href="#" class="bg-white">
+                  <div class="list-container" >
+                     <div class="container nav-link">
+                        <div class="row">
+                           <div class="col-4 text-end"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black" class="bi bi-person-fill" viewBox="0 0 16 16">
+                              <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                            </svg></div>
+                           <div class="col-8 text-dark text-start  mt-1 title fs-6"><span class="text-dark">Profile</span></div>
+                        </div>
+                  </div>
+               </div>
+                 </a>
+                  </li>
+                  <li class="">
+                     <a href="#" class="bg-white">
+                      <div class="list-container" >
+                         <div class="container nav-link">
+                            <div class="row">
+                               <div class="col-4 text-end">
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/>
+                                    <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
+                                  </svg>
+                               </div>
+                               <div class="col-8 text-dark text-start  mt-1 title fs-6"><span class="text-dark">Logout</span></div>
+                            </div>
+                      </div>
+                   </div>
+                     </a>
+                      </li>
+               </ul>
+                  
+            </div>
+         </nav>
+         <!-- Main Content -->
+         <main class="col-md-9 ms-sm-auto col-lg-9  px-md-4 content">
+            <div class="container col-md-12 bg-white py-3 rounded">
+               <div class="row">
+                  <div class="col-sm-12 col-md-8 fs-1">
+                     <p>Welcome Back, Pradeep!</p>
+                  </div>
+                  <div class="col-sm-4 col-md-4 text-center">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" fill="grey" class="bi bi-person-circle" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                     </svg>
+                  </div>
+               </div>
+            </div>
+            <hr>
+            <div class="row col-md-12 ">
+               <h4 class="text-secondary">Application Status</h4>
+               <!-- Pending Applications -->
+               <div class="col-lg-4 col-md-4 mb-4" >
+                  <div class="card shadow-sm border-0 modal-dialog modal-dialog-centered" id="pendingapplication">
+                     <div class="card-body">
+                        <h5 class="card-title">Pending Applications</h5>
+                        <p class="card-text">10 applications are currently pending.</p>
+                        <a href="#" class="btn btn-warning">View Pending</a>
+                     </div>
+                  </div>
+               </div>
+               <!-- Approved Applications -->
+               <div class="col-lg-4 col-md-4 mb-4">
+                  <div class="card shadow-sm border-0">
+                     <div class="card-body">
+                        <h5 class="card-title">Approved Applications</h5>
+                        <p class="card-text">25 applications have been approved.</p>
+                        <a href="#" class="btn btn-success">View Approved</a>
+                     </div>
+                  </div>
+               </div>
+               <!-- Rejected Applications -->
+               <div class="col-lg-4 col-md-4 mb-4">
+                  <div class="card shadow-sm border-0">
+                     <div class="card-body">
+                        <h5 class="card-title">Rejected Applications</h5>
+                        <p class="card-text">5 applications have been rejected.</p>
+                        <a href="#" class="btn btn-danger">View Rejected</a>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="row col-md-12">
+               <!-- Download Resources -->
+               <div class="col-md-7 col-lg-8 mb-4">
+                  <div class="card text-white border-0 py-4" style="background: linear-gradient(to top, #abdcff, #0396ff);">
+                     <div class="card-header border-0">
+                        <h5 class="card-title text-start">Download Resources</h5>
+                     </div>
+                     <div class="card-body text-center">
+                        <div class="container text-center">
+                           <ul class="list-unstyled ">
+                              <li class="bg-white p-2 rounded my-2">
+                                 <div class="row">
+                                    <div class="col-2">
+                                       <a href="#" download="#" class="text-decoration-none">
+                                          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="red" class="bi bi-download" viewBox="0 0 16 16">
+                                             <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+                                             <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/>
+                                          </svg>
+                                       </a>
+                                    </div>
+                                    <div class="col-10 text-start">
+                                       <a href="#" download=" " class="text-decoration-none">
+                                          <h5 class="text-secondary">Application Offer Letter</h5>
+                                       </a>
+                                    </div>
+                                 </div>
+                              </li>
+                              <li class="bg-white p-2 rounded my-2">
+                                 <div class="row">
+                                    <div class="col-2">
+                                       <a href="#" download="#" class="text-decoration-none">
+                                          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="red" class="bi bi-download" viewBox="0 0 16 16">
+                                             <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+                                             <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/>
+                                          </svg>
+                                       </a>
+                                    </div>
+                                    <div class="col-10 text-start">
+                                       <a href="#" download=" " class="text-decoration-none">
+                                          <h5 class="text-secondary">Enrollment Form</h5>
+                                       </a>
+                                    </div>
+                                 </div>
+                              </li>
+                              <li class="bg-white p-2 rounded my-2">
+                                 <div class="row">
+                                    <div class="col-2">
+                                       <a href="#" download="#" class="text-decoration-none">
+                                          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="red" class="bi bi-download" viewBox="0 0 16 16">
+                                             <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+                                             <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/>
+                                          </svg>
+                                       </a>
+                                    </div>
+                                    <div class="col-10 text-start">
+                                       <a href="#" download=" " class="text-decoration-none">
+                                          <h5 class="text-secondary">Fee Payment Guide</h5>
+                                       </a>
+                                    </div>
+                                 </div>
+                              </li>
+                           </ul>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <!-- Notifications -->
+               <div class="col-md-5 col-lg-4 mb-4 ">
+                  <div class="card text-white border-0 py-1" style="background: linear-gradient(to top, #abdcff, #0396ff);">
+                     <div class="card-body">
+                        <h5 class="card-title">Notifications</h5>
+                        <div class="card mb-3">
+                           <div class="card-body">
+                              <h5 class="card-title">Orientation Program Schedule</h5>
+                              <p class="card-text">
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="lightgrey" class="bi bi-calendar-week-fill" viewBox="0 0 16 16">
+                                    <path d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2M9.5 7h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5m3 0h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5M2 10.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5"/>
+                                 </svg>
+                                 &nbsp;&nbsp; Date: 01.01.2025
+                              </p>
+                              <p class="card-text">
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="lightgrey" class="bi bi-clock-fill" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"/>
+                                 </svg>
+                                 &nbsp;&nbsp;Time: 10.00 AM
+                              </p>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <!-- Support Section -->
+            <div class="col-sm-12 col-md-12 col-lg-12 mb-4">
+               <div class="card text-white border-0" style="background: linear-gradient(to top, #feb692, #ea5455);">
+                  <div class="card-body">
+                     <h5 class="card-title">Communication and Support</h5>
+                     <div class="card mb-3">
+                        <div class="card-body">
+                           <div class="container">
+                              <div class="row">
+                                 <div class="col-sm-12 col-md-12 col-lg-4">
+                                    <div class="card border-0">
+                                       <div class="card-body">
+                                          <h6 class="card-title">Contact Information</h6>
+                                          <div class="card-text">
+                                             <div class="row fs-6">
+                                                <div class="col-1">
+                                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">
+                                                      <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"/>
+                                                   </svg>
+                                                </div>
+                                                <div class="col-10"><a href="tel:+">04634 - 250375</a></div>
+                                             </div>
+                                             <div class="row fs-6">
+                                                <div class="col-1">
+                                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill=" grey" class="bi bi-envelope-arrow-down-fill" viewBox="0 0 16 16">
+                                                      <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414zM0 4.697v7.104l5.803-3.558zm.192 8.159 6.57-4.027L8 9.586l1.239-.757.367.225A4.49 4.49 0 0 0 8 12.5c0 .526.09 1.03.256 1.5H2a2 2 0 0 1-1.808-1.144M16 4.697v4.974A4.5 4.5 0 0 0 12.5 8a4.5 4.5 0 0 0-1.965.45l-.338-.207z"/>
+                                                      <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.354-1.646a.5.5 0 0 1-.722-.016l-1.149-1.25a.5.5 0 1 1 .737-.676l.28.305V11a.5.5 0 0 1 1 0v1.793l.396-.397a.5.5 0 0 1 .708.708z"/>
+                                                   </svg>
+                                                </div>
+                                                <div class="col-10"><a href="mailto:ambaiarts@college">ambaiarts@college</a></div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="col-sm-12 col-md-12 col-lg-4">
+                                    <div class="card border-0">
+                                       <div class="card-body">
+                                          <h6 class="card-title">Office Hours</h6>
+                                          <div class="card-text">
+                                             <div class="row fs-6 ">
+                                                <div class="col-8 col-lg-7 ">Faculty :</div>
+                                                <div class="col-4 col-lg-5 text-start">10 to 4</div>
+                                             </div>
+                                             <div class="row   fs-6">
+                                                <div class="col-8 col-lg-7">Management:</div>
+                                                <div class="col-4 col-lg-5">10 to 4</div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="col-sm-12 col-md-12 col-lg-4">
+                                    <div class="card border-0">
+                                       <div class="card-body">
+                                          <div class="card-title">Feedback</div>
+                                          <div class="card-text">
+                                             <textarea class="form-control h-50" id="feedback" rows="2"  placeholder="Write your feedback here..."></textarea>
+                                             <div class="btn btn-danger w-100 mt-1">Submit</div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+         </main>
+         </div>
+      </div>
+      <!-- Footer -->
+      <footer class="footer bg-secondary footer-fluid text-white">
+         <p>&copy; 2024 student Dashboard. All rights reserved.</p>
+      </footer>
+      <!-- Modal -->
+      <!-- Application modal -->
+      <div class="modal fade modal-lg" id="applicationstatus" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered modal-dialog-zoom ">
+            <div class="modal-content border-0">
+               <div class="modal-header bg-primary text-white">
+                  <h1 class="modal-title fs-5" id="staticBackdropLabel">Application Status</h1>
+                  <button type="button" class="btn-close"  data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body" style="background-color: whitesmoke;">
+                  <ul class="list-unstyled">
+                     <li class="bg-white p-3 rounded my-2">
+                        <div class="col-12">
+                           <div class="row">
+                              <div class="col-8">
+                                 <h5 >Pending Applications</h5>
+                                 <p>10 applicantions are currently pending.</p>
+                              </div>
+                              <div class="col-4  ">
+                                 <div class="btn  btn-warning p-3">View Pending</div>
+                              </div>
+                           </div>
+                        </div>
+                     </li>
+                  </ul>
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- Notification modal-->
+      <div class="modal fade " id="notification" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-zoom">
+         <div class="modal-content border-0">
+            <div class="modal-header bg-primary text-white">
+               <h1 class="modal-title fs-5" id="staticBackdropLabel">Notification</h1>
+               <button type="button" class="btn-close"  data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="background-color: whitesmoke;">
+               <ul class="list-unstyled">
+                  <li class="bg-white p-3 rounded my-2">
+                     <div class="col-12">
+                        <div class="row">
+                           <div class="col-6">
+                              <h5 >Orientatio Program</h5>
+                              <h5>Schedule</h5>
+                           </div>
+                           <div class="col-6">
+                              <p>Date: 01:01:2025</p>
+                              <p>Time: 10 AM</p>
+                           </div>
+                        </div>
+                  </li>
+               </ul>
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- Resources modal-->
+      <div class="modal fade" id="resources" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered modal-dialog-zoom">
+            <div class="modal-content border-0">
+               <div class="modal-header bg-primary text-white">
+                  <h1 class="modal-title fs-5" id="staticBackdropLabel">Resources</h1>
+                  <button type="button" class="btn-close"  data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body" style="background-color: whitesmoke;">
+                  <ul class="list-unstyled">
+                     <li class="bg-white p-2 rounded my-2 align-middle">
+                        <div class="col-12">
+                           <div class="row">
+                              <div class="col-10">
+                                 <p>Application Offer Letter</p>
+                              </div>
+                              <div class="col-2">
+                                 <a href="#">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="red" class="bi bi-download" viewBox="0 0 16 16">
+                                       <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+                                       <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/>
+                                    </svg>
+                                 </a>
+                              </div>
+                           </div>
+                        </div>
+                     </li>
+                     <li class="bg-white p-2 rounded my-2">
+                        <div class="col-12">
+                           <div class="row">
+                              <div class="col-10">
+                                 <p>Enrollment form</p>
+                              </div>
+                              <div class="col-2">
+                                 <a href="#">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="red" class="bi bi-download" viewBox="0 0 16 16">
+                                       <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+                                       <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/>
+                                    </svg>
+                                 </a>
+                              </div>
+                           </div>
+                        </div>
+                     </li>
+                     <li class="bg-white p-2 rounded my-2">
+                        <div class="col-12">
+                           <div class="row">
+                              <div class="col-10">
+                                 <p>Fee Payment Guide</p>
+                              </div>
+                              <div class="col-2">
+                                 <a href="#">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="red" class="bi bi-download" viewBox="0 0 16 16">
+                                       <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+                                       <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/>
+                                    </svg>
+                                 </a>
+                              </div>
+                           </div>
+                        </div>
+                     </li>
+                  </ul>
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- Communication model-->
+      <div class="modal fade modal-lg" id="communication" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered modal-dialog-zoom">
+            <div class="modal-content border-0">
+               <div class="modal-header bg-primary text-white">
+                  <h1 class="modal-title fs-5" id="staticBackdropLabel"> Communication & support</h1>
+                  <button type="button" class="btn-close"  data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body" style="background-color: whitesmoke;">
+                  <ul class="list-unstyled">
+                     <li class="bg-white p-3 rounded my-2">
+                        <div class="col-12">
+                           <div class="row">
+                              <div class="col-6">
+                                 <h5>Contact Information</h5>
+                              </div>
+                              <div class="col-6">
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill=" grey" class="bi bi-telephone-fill" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"/>
+                                 </svg>
+                                 <a href="tel:+04634 - 250375">04634 - 250375</a>
+                                 <br>
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill=" grey" class="bi bi-envelope-arrow-down-fill" viewBox="0 0 16 16">
+                                    <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414zM0 4.697v7.104l5.803-3.558zm.192 8.159 6.57-4.027L8 9.586l1.239-.757.367.225A4.49 4.49 0 0 0 8 12.5c0 .526.09 1.03.256 1.5H2a2 2 0 0 1-1.808-1.144M16 4.697v4.974A4.5 4.5 0 0 0 12.5 8a4.5 4.5 0 0 0-1.965.45l-.338-.207z"/>
+                                    <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.354-1.646a.5.5 0 0 1-.722-.016l-1.149-1.25a.5.5 0 1 1 .737-.676l.28.305V11a.5.5 0 0 1 1 0v1.793l.396-.397a.5.5 0 0 1 .708.708z"/>
+                                 </svg>
+                                 <a href="mailto:ambaiarts@college">ambaiarts@college</a>  
+                              </div>
+                           </div>
+                        </div>
+                     </li>
+                     <li class="bg-white p-3 rounded my-2">
+                        <div class="col-12">
+                           <div class="row">
+                              <div class="col-6">
+                                 <h5>Office Hours</h5>
+                              </div>
+                              <div class="col-6">
+                                 <div class="row">
+                                    <h6>Faculty :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-secondary">10.00 AM - 4.00 PM</span></h6>
+                                 </div>
+                                 <div class="row">
+                                    <h6>Administrative:&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-secondary">10.00 AM - 4.00 PM</span></h6>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </li>
+                  </ul>
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+               </div>
+            </div>
+         </div>
+      </div>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+      
+   </body>
+</html>
