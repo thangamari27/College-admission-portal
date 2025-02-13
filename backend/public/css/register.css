@@ -1,0 +1,119 @@
+:root{
+    --primary-color: #F8F7FF;
+    --secondary-color: #131112;
+    --accend-color: #3777FF;
+    --text-light: #f1f1f1;
+    --text-dark: #1E1E1E;
+    --text-hover: #1E1E1E;
+    --success-alert:#90EE90;
+    }
+    body{
+    height: 100vh;
+    width: 100vw;
+    background-color: var(--primary-color) !important;
+    }
+    h1,p{
+    margin: 0 !important;
+    padding: 0 !important;
+    }
+    .card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    
+    }
+    .card-header {
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    border-radius: 10px 10px 0 0;
+    
+    
+    }
+    .btn-custom {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    }
+    .btn-custom:hover {
+    background-color: #0056b3;
+    }
+    .form-text a {
+    color: #007bff;
+    text-decoration: none;
+    }
+    .form-text a:hover {
+    text-decoration: underline;
+    }
+    .signpage{
+        text-decoration: underline;
+        cursor: pointer;
+        font-weight: 600;
+    }
+    .text-danger {
+        color: red;
+        font-size: 14px;
+    }
+    
+    .text-success {
+        color: green;
+        font-size: 14px;    
+    }
+    #successalert{
+        width: 100%;
+    }
+    #successalert > .alert-container{
+        width: 50% !important;
+        background-color: var(--success-alert);
+    }
+    #college-logo{
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    gap: 10px;
+    background-color: var(--accend-color);
+    border-radius: 10px 10px 0px 0px;
+    }
+    
+    .college-logo-wrapper > .college-logo{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    aspect-ratio: fill;
+    }
+    .college-info-wrapper{
+    color: var(--text-light);
+    text-align: left;
+    }
+    .college-info-wrapper > h1{
+    font-size: 1rem;
+    font-weight: 700;
+    }
+    .college-info-wrapper > p{
+    font-size: 0.4rem;
+    }
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+    
+    input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+    }
+    
+    @media(min-width:767px){
+    .college-logo-wrapper > .college-logo{
+    width: 90px;
+    height: 80px;
+    }
+    .college-info-wrapper > h1{
+    font-size: 1.5rem;
+    font-weight: 600;
+    }
+    .college-info-wrapper > p{
+    font-size: 0.8rem;
+    }
+    }
